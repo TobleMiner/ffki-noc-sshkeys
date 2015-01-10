@@ -14,13 +14,24 @@ case $1 in
 user { "${username}":
   ensure => present,
   groups => ['sudo'],
+  shell => '/bin/bash',
+  managehome => true,
   require => [ Package['sudo'] ];
+}
+
+file { '/home/${username}/.ssh/':
+  ensure => directory,
+  owner => '${username}',
+  group => '${username}',
+  mode => '0700',
+  require => [ User['${username}'] ];
 }
 
 ssh_authorized_key { "${key_name}":
   user => '${username}',
   type => '${key_type}',
-  key  => '${key}';
+  key  => '${key}',
+  require => [ File['/home/${username}/.ssh/'] ];
 }
 EOF
       fi
