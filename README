@@ -1,4 +1,10 @@
 FFKI Pubkey Sammlung
 --------------------
 
+ Jedes der unterverzeichnisse enthält ".pub" Dateien im
+ Dateinamen-Format "<username>.pub", unterhalb von scripts
+ gibt es Werkzeuge zum erzeugen von Userlisten und puppet
+ manifesten für das Anlegenen von Benutzern auf unserer Systemen.
+
  * Unter generic liegen von jedem ffki-noc user ein public ssh key
+
