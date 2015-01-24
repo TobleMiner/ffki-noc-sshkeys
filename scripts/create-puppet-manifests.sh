@@ -10,6 +10,7 @@ case $1 in
         key=$(head "$pub" | cut -s -d ' ' -f 2)
         key_type=$(head "$pub" | cut -s -d ' ' -f 1)
         key_name=$(head "$pub" | cut -s -d ' ' -f 3)
+        password=$(/usr/bin/openssl rand -base64 32)
         cat << EOF
 user { "${username}":
   ensure => present,
@@ -33,6 +34,20 @@ ssh_authorized_key { "${key_name}":
   key  => '${key}',
   require => [ File['/home/${username}/.ssh/'] ];
 }
+
+exec { "${username}_password":
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< '${username}:${password}'\"",
+}
+
+file { '/home/${username}/password':
+  ensure => file,
+  owner => '${username}',
+  group => '${username}',
+  mode => '0700',
+  content => "Change this password asap!\npassword: ${password}\n",
+  require => [ User['${username}'] ];
+}
+
 EOF
       fi
     done
