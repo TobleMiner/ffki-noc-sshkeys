@@ -7,4 +7,13 @@ FFKI Pubkey Sammlung
  manifesten für das Anlegenen von Benutzern auf unserer Systemen.
 
  * Unter generic liegen von jedem ffki-noc user ein public ssh key
+ 
+ Das shell script generiert ein puppet script:
+ 
+ aptitude install realpath
+
+ 
+ ./scripts/create-puppet-manifests.sh generic > puppet_ssh.pp
+
+puppet apply --verbose puppet_ssh.pp 
 
