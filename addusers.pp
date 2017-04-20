@@ -1,3 +1,39 @@
+user { "tsys":
+  ensure => present,
+  groups => ['sudo'],
+  shell => '/bin/bash',
+  managehome => true,
+  require => [ Package['sudo'] ];
+}
+
+file { '/home/tsys/.ssh/':
+  ensure => directory,
+  owner => 'tsys',
+  group => 'tsys',
+  mode => '0700',
+  require => [ User['tsys'] ];
+}
+
+ssh_authorized_key { "":
+  user => 'tsys',
+  type => 'ssh-rsa',
+  key  => 'AAAAB3NzaC1yc2EAAAABJQAAAgEAybAnUFNNAWsC0lTwrfbErrWrtZMbDqNpcpj8M4a3cfXJe34SnwcUHUJDuCCJtlNdq9hsx7oODU82qdAfSQqKzKfJyVPMJ0pP1fZ6HIaZndXEKW3aDKSGdau6CwWuL4MM8xG+TeJHGAhqfhH3gePJj/4sAKam8jtxE8dVdhVVRioANEMWxjAo7CamORbuNkXqXw8xdSLnvaSIJU4qs9CmY+ZAg49yMb6qDu9C2kEszswOBId9E6kHFT0mDJ/Nb51kG+asBixB2dQNKC76uXXfjUdW1MH2Bay5LJWQFXvGBhJ8HiSdK/9VN8Ri1pnDbxngV8Jeq5C9mHT69MxwIfkxzg+WM8O89i63r3w036GNfGwscLCUmZkE/0fHRXnECTLosyKnFxNm/GDfEbVWnSiSbt9ATTLXp7jKvNPjlOgq+FFbKQCo90cD1rayztZvKkDm8CGQ6MdS+guX1laZEbpxb9WmR3ZdS0MbwnfGWgwqAUghhIkz4bGxLEUZbYSWC0VHsOiOnXIzYH246th9jqyvwLHs1zuLZIjQCVvmRREwrEPqwl+2aKRQR1BcCp75Ms6giuPBd8caroWfHjf/kK+6DrsnOPRGk/omhXu0madaxFT2Pm76fsXWKREJ3BPjTHTo/VzXwgESvktHTUCJW4akzSn1kx1agGGZoQb5WcoJdvk=',
+  require => [ File['/home/tsys/.ssh/'] ];
+}
+
+exec { "tsys_password":
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'tsys:pK7870XnqHjCo1HCMpAOZgSQRApgd4evGr+6GT7b/As='\"",
+}
+
+file { '/home/tsys/password':
+  ensure => file,
+  owner => 'tsys',
+  group => 'tsys',
+  mode => '0700',
+  content => "Change this password asap!\npassword: pK7870XnqHjCo1HCMpAOZgSQRApgd4evGr+6GT7b/As=\n",
+  require => [ User['tsys'] ];
+}
+
 user { "luftloch":
   ensure => present,
   groups => ['sudo'],
@@ -22,7 +58,7 @@ ssh_authorized_key { "luftloch":
 }
 
 exec { "luftloch_password":
-  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'luftloch:2iXfU4Ek/LyAijS5k7/AReuD8hJbPFM4ce3tB/bFIBo='\"",
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'luftloch:GCkchH49wdrUvrKrrNP0WbxotF3+W5gSvIevPP8XSnI='\"",
 }
 
 file { '/home/luftloch/password':
@@ -30,7 +66,7 @@ file { '/home/luftloch/password':
   owner => 'luftloch',
   group => 'luftloch',
   mode => '0700',
-  content => "Change this password asap!\npassword: 2iXfU4Ek/LyAijS5k7/AReuD8hJbPFM4ce3tB/bFIBo=\n",
+  content => "Change this password asap!\npassword: GCkchH49wdrUvrKrrNP0WbxotF3+W5gSvIevPP8XSnI=\n",
   require => [ User['luftloch'] ];
 }
 
@@ -58,7 +94,7 @@ ssh_authorized_key { "cbreut@cbook-UB":
 }
 
 exec { "tarnatos_password":
-  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'tarnatos:4Qb+u3H/LBPPSjO/1YDt1NtXfPt1Jqkp9GWoeRI8abs='\"",
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'tarnatos:ZfmYDovG4REgD0EuaQilIUvvtNDC9NRNDeJvWQinwoc='\"",
 }
 
 file { '/home/tarnatos/password':
@@ -66,7 +102,7 @@ file { '/home/tarnatos/password':
   owner => 'tarnatos',
   group => 'tarnatos',
   mode => '0700',
-  content => "Change this password asap!\npassword: 4Qb+u3H/LBPPSjO/1YDt1NtXfPt1Jqkp9GWoeRI8abs=\n",
+  content => "Change this password asap!\npassword: ZfmYDovG4REgD0EuaQilIUvvtNDC9NRNDeJvWQinwoc=\n",
   require => [ User['tarnatos'] ];
 }
 
@@ -94,7 +130,7 @@ ssh_authorized_key { "grill@calculon":
 }
 
 exec { "fsteinel_password":
-  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'fsteinel:1YEywygQXfRFJnSHadWy2VFVev6uN+fdLuC0u/WuZa4='\"",
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'fsteinel:IW9VuwcKZa2z/ndzgS+YxQaqwXGSY4ixSVPFUG5Cw68='\"",
 }
 
 file { '/home/fsteinel/password':
@@ -102,7 +138,7 @@ file { '/home/fsteinel/password':
   owner => 'fsteinel',
   group => 'fsteinel',
   mode => '0700',
-  content => "Change this password asap!\npassword: 1YEywygQXfRFJnSHadWy2VFVev6uN+fdLuC0u/WuZa4=\n",
+  content => "Change this password asap!\npassword: IW9VuwcKZa2z/ndzgS+YxQaqwXGSY4ixSVPFUG5Cw68=\n",
   require => [ User['fsteinel'] ];
 }
 
@@ -130,7 +166,7 @@ ssh_authorized_key { "ruben@nebelhaufen":
 }
 
 exec { "rubo77_password":
-  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'rubo77:shghTjEy6nxX/reziz93CDcL/qFO+eqPjeElKw/95tY='\"",
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'rubo77:kc0Vu8c8x0/70IpifYg1Z8VYIFvLwQjzl0KZQDQZaSU='\"",
 }
 
 file { '/home/rubo77/password':
@@ -138,7 +174,7 @@ file { '/home/rubo77/password':
   owner => 'rubo77',
   group => 'rubo77',
   mode => '0700',
-  content => "Change this password asap!\npassword: shghTjEy6nxX/reziz93CDcL/qFO+eqPjeElKw/95tY=\n",
+  content => "Change this password asap!\npassword: kc0Vu8c8x0/70IpifYg1Z8VYIFvLwQjzl0KZQDQZaSU=\n",
   require => [ User['rubo77'] ];
 }
 
@@ -166,7 +202,7 @@ ssh_authorized_key { "luci@lea":
 }
 
 exec { "mikevanbike_password":
-  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'mikevanbike:iQ81GXxTy8P+kqqlTifY7g7FyglwFVdJETTVu4Siv3E='\"",
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'mikevanbike:3JvTqjbddJdm0vi1337cDx3jZjiwz7TQxkjrhqRhxCs='\"",
 }
 
 file { '/home/mikevanbike/password':
@@ -174,7 +210,7 @@ file { '/home/mikevanbike/password':
   owner => 'mikevanbike',
   group => 'mikevanbike',
   mode => '0700',
-  content => "Change this password asap!\npassword: iQ81GXxTy8P+kqqlTifY7g7FyglwFVdJETTVu4Siv3E=\n",
+  content => "Change this password asap!\npassword: 3JvTqjbddJdm0vi1337cDx3jZjiwz7TQxkjrhqRhxCs=\n",
   require => [ User['mikevanbike'] ];
 }
 
@@ -202,7 +238,7 @@ ssh_authorized_key { "kontakt@maximilian-jacobsen.de":
 }
 
 exec { "mxmla_password":
-  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'mxmla:UxWAp90hCkwqBA77RmAi+pGMpCB/660a1w/edC9dUzM='\"",
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'mxmla:l/jy1a6GoTjQEj9WMNdtKJaOvlDv1X4o9Xh1/oADPvY='\"",
 }
 
 file { '/home/mxmla/password':
@@ -210,7 +246,7 @@ file { '/home/mxmla/password':
   owner => 'mxmla',
   group => 'mxmla',
   mode => '0700',
-  content => "Change this password asap!\npassword: UxWAp90hCkwqBA77RmAi+pGMpCB/660a1w/edC9dUzM=\n",
+  content => "Change this password asap!\npassword: l/jy1a6GoTjQEj9WMNdtKJaOvlDv1X4o9Xh1/oADPvY=\n",
   require => [ User['mxmla'] ];
 }
 
@@ -238,7 +274,7 @@ ssh_authorized_key { "sargon@pan":
 }
 
 exec { "sargon_password":
-  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'sargon:OMQA8N6tzxiAhZcPvmDl8t0S3MceiFib++ptSFGSosI='\"",
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'sargon:9cS8bjL1+fY+ZbShaZSoO4mdeSbhSKw8YkBxNhY+2M8='\"",
 }
 
 file { '/home/sargon/password':
@@ -246,7 +282,7 @@ file { '/home/sargon/password':
   owner => 'sargon',
   group => 'sargon',
   mode => '0700',
-  content => "Change this password asap!\npassword: OMQA8N6tzxiAhZcPvmDl8t0S3MceiFib++ptSFGSosI=\n",
+  content => "Change this password asap!\npassword: 9cS8bjL1+fY+ZbShaZSoO4mdeSbhSKw8YkBxNhY+2M8=\n",
   require => [ User['sargon'] ];
 }
 
@@ -274,7 +310,7 @@ ssh_authorized_key { "w@chaos":
 }
 
 exec { "wonka_password":
-  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'wonka:d/VzhBGeP45tZKiYutKZkEyDd2Je35dTvu/QO09BmPQ='\"",
+  command => "/bin/bash -c \"/usr/sbin/chpasswd <<< 'wonka:wvCLFpNBw/oKVntW9y2dTtfltat4xf0NDuMv1VgBres='\"",
 }
 
 file { '/home/wonka/password':
@@ -282,7 +318,7 @@ file { '/home/wonka/password':
   owner => 'wonka',
   group => 'wonka',
   mode => '0700',
-  content => "Change this password asap!\npassword: d/VzhBGeP45tZKiYutKZkEyDd2Je35dTvu/QO09BmPQ=\n",
+  content => "Change this password asap!\npassword: wvCLFpNBw/oKVntW9y2dTtfltat4xf0NDuMv1VgBres=\n",
   require => [ User['wonka'] ];
 }
 
