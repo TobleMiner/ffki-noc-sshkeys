@@ -2,18 +2,6 @@ FFKI Pubkey Sammlung
 --------------------
 
  Jedes der unterverzeichnisse enthält ".pub" Dateien im
- Dateinamen-Format "<username>.pub", unterhalb von scripts
- gibt es Werkzeuge zum erzeugen von Userlisten und puppet
- manifesten für das Anlegenen von Benutzern auf unserer Systemen.
-
+ Dateinamen-Format "<username>.pub"
  * Unter generic liegen von jedem ffki-noc user ein public ssh key
- 
- Das shell script generiert ein puppet script:
- 
- aptitude install realpath
-
- 
- ./scripts/create-puppet-manifests.sh generic > puppet_ssh.pp
-
-puppet apply --verbose puppet_ssh.pp 
 
